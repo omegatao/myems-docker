@@ -1,0 +1,20 @@
+version: "3"
+services:
+    mysql4myems:
+        image: mysql:8.0
+        container_name: mysql4myems
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: "!MyEMS1"
+        volumes:
+            - ./myems/database:/docker-entrypoint-initdb.d
+    apiServer:
+        build: ./myems-api-docker/
+        image: "apiserver"
+        container_name: apiServer
+        restart: always
+        ports:
+            - "8000:8000"
